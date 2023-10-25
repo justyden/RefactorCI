@@ -1,481 +1,624 @@
-# ### Doubly Linked List
-# 
-# The purpose of this assignment is to make you familiar with implementing a data structure in Python in an object oriented way.
-# During lectures we implemented a few simple linear data structres: queue, list, deques, stacks. Now we expect you to implement one of these structures yourself.
-# 
-# You are provided with two classes: **Node** and **DoublyLinkedList**. The first one is already implemented (you don't need to modify it), the second one consist only a structure of empty methods defined. Your task is to come up with an implementation of these methods.
-# 
-# _Note_: If a list is doubly linked, each node contains a reference to the _previous_ node in the chain and a reference to the _next_ node.
-# 
-# You are expected to implement every function in DoublyLinkedList. Including the *next()* function, which is used by an iterator object in python. The *map(func)* function applies a function to every element in the list.
-# All other functions are available in the PSADS book.
+ # -*- coding: utf-8 -*-
+"""CMPSC132 - Homework 1.py
 
-# ## Constructing a Doubly Linked List
-# 
-# The **Node** class implementation is already given:
+I have included that code snippets for the <a href= "https://runestone.academy/runestone/books/published/pythonds3/Introduction/ObjectOrientedProgramminginPythonDefiningClasses.html">PSADS book below</a>. You need to extend the code in order to meet the criteria listed at the end of the chapter.
+"""
+def gcd(m, n):
+      while m % n != 0:
+        m, n = n, m % n
+      return n
+  
+def int_to_fraction(x):
+  if type(x) == int:
+    return Fraction(x, 1)
+  elif type(x) == Fraction:
+    return x
+  else:
+    raise TypeError("Must be an int/Fraction")
+
+class Fraction:
+    def __init__(self, top, bottom):
+        cmmn = gcd(top, bottom)
+        self.num = top // cmmn
+        self.den = bottom // cmmn
+        
+
+    def __str__(self):
+        return "{:d}/{:d}".format(self.num, self.den)
+
+    def __eq__(self, other_fraction):
+        first_num = self.num * other_fraction.den
+        second_num = other_fraction.num * self.den
+
+        return first_num == second_num
+
+    def __add__(self, other_fraction):
+        other_fraction = int_to_fraction(other_fraction)
+        new_num = self.num * other_fraction.den \
+        + self.den * other_fraction.num
+        new_den = self.den * other_fraction.den
+        return Fraction(new_num, new_den)
 
 
+  
+    def __sub__(self, other_fraction):
+        other_fraction = int_to_fraction(other_fraction)
+        new_num = self.num * other_fraction.den \
+        - self.den * other_fraction.num
+        new_den = self.den * other_fraction.den
+        return Fraction(new_num, new_den)
 
-class Node(object):
-    """Doubly linked node which stores an object"""
+    def __mul__(self, other_fraction):
+        other_fraction = int_to_fraction(other_fraction)
+        new_num = self.num * other_fraction.num
+        new_den = self.den * other_fraction.den
+        return Fraction(new_num, new_den)
 
-    def __init__(self, element, next_node=None, previous_node=None):
-        # The underscores are to prevent overwriting the variables if inherited and prevents access from outside of scope
-        self.__element = element
-        self.__next_node = next_node
-        self.__previous_node = previous_node
+    def __truediv__(self, other_fraction):
+        other_fraction = int_to_fraction(other_fraction)
+        new_num = self.num * other_fraction.den
+        new_den = self.den * other_fraction.num
+        return Fraction(new_num, new_den)
 
-    def get_element(self):
-        """Returns the element stored in this node"""
-        return self.__element
+    def __gt__(self, other_fraction):
+      return (self.num * other_fraction.den > other_fraction.num * self.den)
 
-    def get_previous(self):
-        """Returns the previous linked node"""
-        return self.__previous_node
+    def __ge__(self, other_fraction):
+      return (self.num * other_fraction.den >= other_fraction.num * self.den)
 
-    def get_next(self):
-        """Returns the next linked node"""
-        return self.__next_node
+    def __lt__(self, other_fraction):
+      return (self.num * other_fraction.den < other_fraction.num * self.den)
 
-    def set_element(self, element):
-        """Sets the element stored in this node"""
-        self.__element = element
+    def __le__(self, other_fraction):
+      return (self.num * other_fraction.den <= other_fraction.num * self.den)
 
-    def set_previous(self, previous_node):
-        """Sets the previous linked node"""
-        self.__previous_node = previous_node
+    def __ne__(self, other_fraction):
+        first_num = self.num * other_fraction.den
+        second_num = other_fraction.num * self.den
 
-    def set_next(self, next_node):
-        """Sets the next linked node"""
-        self.__next_node = next_node
+        return first_num != second_num
+
+    def __repr__(self):
+      return self.__str__()
+
+    def __radd__(self, left):
+      """
+      print(f"self: {self}")
+      print(f"left: {left}")
+      """
+      return self + left
+      #return None
+      
+    def __repr__(self):
+      return self.__str__()
+
+    def get_num(self):
+      return self.num
+    def get_den(self):
+      return self.den
+      
+    def show(self):
+        print(self.__str__())
+
+x = Fraction(1, 2)
+x.show()
+y = Fraction(2, 3)
+print(y)
+assert y == Fraction(2, 3)
+print(x + y)
+assert x + y == Fraction(7,6)
+print(x == y)
+
+"""# COMPLETE THE FRACTION CLASS
+<a href= "https://runestone.academy/runestone/books/published/pythonds3/Introduction/Exercises.html"> You can also find these questions in the book. </a><br>
+1. Implement the simple methods get\\_num and get\\_den that will return the numerator and denominator of a fraction.
+
+2. In many ways it would be better if all fractions were maintained in lowest terms right from the start. Modify the constructor for the Fraction class so that GCD is used to reduce fractions immediately. Notice that this means the \\_\\_add\\_\\_ function no longer needs to reduce. Make the necessary modifications.
+
+3. Implement the remaining simple arithmetic operators (\\_\\_sub\\_\\_, \\_\\_mul\\_\\_, and \\_\\_truediv\\_\\_).
+
+4. Implement the remaining relational operators (\\_\\_gt\\_\\_, \\_\\_ge\\_\\_, \\_\\_lt\\_\\_, \\_\\_le\\_\\_, and \\_\\_ne\\_\\_).
+
+5. Modify the constructor for the fraction class so that it checks to make sure that the numerator and denominator are both integers. If either is not an integer, the constructor should raise an exception.
+
+6. In the definition of fractions we assumed that negative fractions have a negative numerator and a positive denominator. Using a negative denominator would cause some of the relational operators to give incorrect results. In general, this is an unnecessary constraint. Modify the constructor to allow the user to pass a negative denominator so that all of the operators continue to work properly.
+
+7. Research the \\_\\_radd\\_\\_ method. How does it differ from \\_\\_add\\_\\_? When is it used? Implement \\_\\_radd\\_\\_.
+
+8. Repeat the last question but this time consider the \\_\\_iadd\\_\\_ method.
+
+9. Research the \\_\\_repr\\_\\_ method. How does it differ from \\_\\_str\\_\\_? When is it used? Implement \\_\\_repr\\_\\_.
+"""
+
+#Test 1
+x.get_num()
+assert x.get_num() == 1
+y.get_den()
+assert y.get_den() == 3
+
+# Test 2
+z = Fraction(3,6)
+print(z)  #should be 1/2
+assert z == Fraction(1,2)
+
+# Test 3
+# __sub__
+z = x-y
+print(z)
+assert z == Fraction(-1,6)
+# __mul__
+z = x*y
+print(z)
+assert z == Fraction(1,3)
+# __truediv__
+# from __future__ import division  #this might need to be imported
+z = x/y
+print(z)
+assert z == Fraction(3,4)
+
+# Test 4
+# __gt__
+assert (x > y) is False
+# __ge__
+assert (x >= y) is False
+# __lt__
+assert (x < y) is True
+# __le__
+assert (x <= y) is True
+# __ne__
+assert (x != y) is True
+
+#Test 5
+try:
+    alpha = Fraction(1.2,2.2)
+except:
+    print('that doesn\'t work!')
+
+#Test 6
+beta = Fraction(3, -5)
+print(beta)
+print(beta.get_num())
+print(beta.get_den())
+assert beta == Fraction(-3, 5)
+
+#Test 7 radd
+print(x + 1)
+print(1 + x)
+assert (x + 1) == Fraction(3,2)
+assert (1 + x) == Fraction(3,2)
+
+#Test 8 iadd
+for i in range(y.get_den()):
+    x += i
+    print(x)
+assert x ==  Fraction(7,2)
+
+
+"""# LOGIC GATE PROBLEM
+Research other types of gates that exist (such as NAND, NOR, and XOR). Add them to the circuit hierarchy. How much additional coding did you need to do?
+
+The most simple arithmetic circuit is known as the half adder. Research the simple half-adder circuit. Implement this circuit.
+
+Now extend that circuit and implement an 8-bit full adder."""
+
+#
+
+''''
+
+#class LogicGate:
+
+    def __init__(self,n):
+        self.name = n
+        self.output = None
+
+    def getLabel(self):
+        return self.name
+
+    def getOutput(self):
+        self.output = self.performGateLogic()
+        return self.output
+
+
+#class BinaryGate(LogicGate):
+
+    def __init__(self,n):
+        super(BinaryGate, self).__init__(n)
+
+        self.pinA = None
+        self.pinB = None
+
+    def getPinA(self):
+        if self.pinA == None:
+            return int(input("Enter Pin A input for gate "+self.getLabel()+"-->"))
+        else:
+            return self.pinA.getFrom().getOutput()
+
+    def getPinB(self):
+        if self.pinB == None:
+            return int(input("Enter Pin B input for gate "+self.getLabel()+"-->"))
+        else:
+            return self.pinB.getFrom().getOutput()
+
+    def setNextPin(self,source):
+        if self.pinA == None:
+            self.pinA = source
+        else:
+            if self.pinB == None:
+                self.pinB = source
+            else:
+                print("Cannot Connect: NO EMPTY PINS on this gate")
+
+
+#class AndGate(BinaryGate):
+
+    def __init__(self,n):
+        BinaryGate.__init__(self,n)
+
+    def performGateLogic(self):
+
+        # a = self.getPinA()
+        # b = self.getPinB()
+        if a==1 and b==1:
+            return 1
+        else:
+            return 0
+
+#class OrGate(BinaryGate):
+
+    def __init__(self,n):
+        BinaryGate.__init__(self,n)
+
+    def performGateLogic(self):
+
+        #a = self.getPinA()
+        #b = self.getPinB()
+        if a ==1 or b==1:
+            return 1
+        else:
+            return 0
+
+#class UnaryGate(LogicGate):
+
+    def __init__(self,n):
+        LogicGate.__init__(self,n)
+
+        self.pin = None
+
+    def getPin(self):
+        if self.pin == None:
+            return int(input("Enter Pin input for gate "+self.getLabel()+"-->"))
+        else:
+            return self.pin.getFrom().getOutput()
+
+    def setNextPin(self,source):
+        if self.pin == None:
+            self.pin = source
+        else:
+            print("Cannot Connect: NO EMPTY PINS on this gate")
+
+
+#class NotGate(UnaryGate):
+
+    def __init__(self,n):
+        UnaryGate.__init__(self,n)
+
+    def performGateLogic(self):
+        if self.getPin():
+            return 0
+        else:
+            return 1
+
+#class XORGate(BinaryGate): 
+    def __init__(self, n):
+        BinaryGate.__init__(self, n)
+    def performGateLogic(self):
+      #return self.pinA ^ self.pinB
+      return(self.pinA and not self.pinB) or (not (self.pinA and self.pinB))  
+
+
+#class Connector:
+
+    def __init__(self, fgate, tgate):
+        self.fromgate = fgate
+        self.togate = tgate
+
+        tgate.setNextPin(self)
+
+    def getFrom(self):
+        return self.fromgate
+
+    def getTo(self):
+        return self.togate
+
+def __init__(self, lbl):
+        self.name = lbl
+        self.output = None
+
+    def get_label(self):
+        return self.name
+
+    def get_output(self):
+        self.output = self.perform_gate_logic()
+        return self.output
+
+'''
+class LogicGate:
+
+    def __init__(self, lbl):
+        self.name = lbl
+        self.output = None
+
+    def get_label(self):
+        return self.name
+
+    def get_output(self):
+        self.output = self.perform_gate_logic()
+        return self.output
+
+class BinaryGate(LogicGate):
+
+    def __init__(self, lbl):
+        super(BinaryGate, self).__init__(lbl)
+        self.pin_a = None
+        self.pin_b = None
+
+    #Programmatically set value
+    def set_a(self,a):
+        self.pin_a = a
+    def set_b(self,b):
+        self.pin_b = b
+    #Grab values from the user
+    def set_pin_a(self):
+        if self.pin_a == None:
+            return int(input("Enter pin A input for gate " + self.get_label() + ": "))
+    def set_pin_b(self):
+        if self.pin_b == None:
+            return int(input("Enter pin B input for gate " + self.get_label() + ": "))
+    # Call to set both pins with user data
+    def set_pins(self):
+        self.pin_a = self.set_pin_a()
+        self.pin_b = self.set_pin_b()
+
+    def set_next_pin(self, source):
+        if self.pin_a == None:
+            self.pin_a = source
+        else:
+            if self.pin_b == None:
+                self.pin_b = source
+            else:
+                print("Cannot Connect: NO EMPTY PINS on this gate")
     
-    def __repr__(self):
-        return str((self.__element, self.get_next()))
+    def get_pin_a(self):
+        return self.pin_a
+    
+    def get_pin_b(self):
+        return self.pin_b
 
 
-# The following code snippet is a constructor provided by the **DoublyLinkedList** Python class for the creation of a new doubly linked list. **Extend the snippet below with your implementation of the DoublyLinkedList**. 
+class ANDGate(BinaryGate):
 
+    def __init__(self, lbl):
+        BinaryGate.__init__(self, lbl)
 
+    def perform_gate_logic(self):
+        assert self.pin_a != () and self.pin_b != ()
+        return((self.pin_a and self.pin_b))  
 
+class ORGate(BinaryGate):
 
-class DoublyLinkedList(object):
-    """Doubly linked node data structure"""
+    def __init__(self, lbl):
+        BinaryGate.__init__(self, lbl)
 
-    def __init__(self):
-        self.__size = 0
-        self.__header = Node('Header')
-        self.__trailer = Node('Trailer')
-        self.__header.set_next(self.__trailer)
-        self.__trailer.set_previous(self.__header)
-        self.__current = None
+    def perform_gate_logic(self):
 
-    def __repr__(self):
-        return str(self.get_first())
-    def __iter__(self):
-        self.__current = None
-        return self
-
-    def __next__(self):
-        """Standard python iterator method"""
-        if self.is_empty() or self.__current == self.__trailer:
-            raise StopIteration()
-        elif self.__current is None:
-            self.__current = self.__header
-        self.__current = self.__current.get_next()
-        if self.__current != self.__trailer:
-            return self.__current
-        else: 
-            raise StopIteration()
-
-    def map(self, function):
-        """Run function on every element in the list"""
-        for node in self:
-            if node != self.__trailer and node != self.__header:
-                node.set_element(function(node.get_element()))
-
-    def size(self):
-        """Returns the number of elements in the list"""
-        return self.__size
-
-    def is_empty(self):
-        """Returns the number of elements in the list"""
-        return self.__size == 0
-
-    def get_first(self):
-        """Get the first element of the list"""
-        if self.is_empty():
-            raise Exception("List is empty")
+        a = self.get_pin_a()
+        b = self.get_pin_b()
+        if a == 1 or b == 1:
+            return 1
         else:
-            return self.__header.get_next()
+            return 0
 
-    def get_last(self):
-        """Get the last element of the list"""
-        if self.is_empty():
-            raise Exception("List is empty")
+class XORGate(BinaryGate): 
+    def __init__(self, lbl):
+        BinaryGate.__init__(self, lbl)
+    def perform_gate_logic(self):
+        return((self.pin_a or self.pin_b) and not(self.pin_a and self.pin_b))  
+
+class UnaryGate(LogicGate):
+
+    def __init__(self, lbl):
+        LogicGate.__init__(self, lbl)
+
+        self.pin = None
+
+    def get_pin(self):
+        if self.pin == None:
+            return int(input("Enter pin input for gate " + self.get_label() + ": "))
         else:
-            return self.__trailer.get_previous()
+            return self.pin
+            
 
-    def get_previous(self, node):
-        """Returns the node before the given node"""
-        if node == self.__header:
-            raise Exception("Cannot get the element before the header of this list")
+    def set_next_pin(self, source):
+        if self.pin == None:
+            self.pin = source
         else:
-            return node.get_previous()
+            print("Cannot Connect: NO EMPTY PINS on this gate")
 
-    def get_next(self, node):
-        """Returns the node after the given node"""
-        if node == self.__trailer:
-            raise Exception("Cannot get the element after the trailer of this list")
+
+class NOTGate(UnaryGate):
+
+    def __init__(self, lbl):
+        UnaryGate.__init__(self, lbl)
+
+    def perform_gate_logic(self):
+        if self.get_pin():
+            return 0
         else:
-            return node.get_next()
-
-    def add_before(self, new, existing):
-        """Insert the new before existing"""
-        previous_existing = self.get_previous(existing)
-        new.set_previous(previous_existing)
-        new.set_next(existing)
-        existing.set_previous(new)
-        previous_existing.set_next(new)
-        self.__size += 1
-
-    def add_after(self, new, existing):
-        """Insert the new after existing"""
-        next_existing = self.get_next(existing)
-        new.set_previous(existing)
-        new.set_next(next_existing)
-        existing.set_next(new)
-        next_existing.set_previous(new)
-        self.__size += 1
-
-    def add_first(self, new):
-        """Insert the node at the head of the list"""
-        self.add_after(new, self.__header)
-
-    def add_last(self, new):
-        """Insert the node at the tail of the list"""
-        self.add_before(new, self.__trailer)
-
-    def remove(self, node):
-        """Removes the given node from the list"""
-        before = self.get_previous(node)
-        after = self.get_next(node)
-        before.set_next(after)
-        after.set_previous(before)
-        node.set_next(None)
-        node.set_previous(None)
-        self.__size -= 1
-
-
-# **Task 1 (5 points)**: Using the constructor from the **DoublyLinkedList**, create a new doubly linked list of random integers between 1 and 10.
-
-# In[3]:
-
-
-dL = DoublyLinkedList()
-
-for i in range(4):
-    dL.add_last(Node(i))
-
-print(dL)
-
-assert str(dL) == f"(0, (1, (2, (3, ('Trailer', None)))))"
-
-
-# ## Using a Doubly Linked List
-# 
-# The given **DoublyLinkedList** Python class
-# contains helpful methods for using a doubly linked list.
-# Answer the following questions while implementing
-# the methods of the **DoublyLinkedList** class.
-# 
-# **Task 2 (10 points)**: Implement the `size` method that returns the size of a doubly linked list.
-# 
-# ```python
-# def size(self):
-#   """Returns the number of elements in the list."""
-#   pass 
-# ```
-
-# In[4]:
-
-
-#Test your implementation here
-print(dL.size())
-assert dL.size() == 4
-
-
-# **Task 3 (5 points)**: Implement the `is_empty` method that checks
-# whether a doubly linked list is empty.
-# 
-# ```python
-# def is_empty(self):
-#   """Returns the number of elements in the list"""
-#   pass
-# ```
-
-# In[5]:
-
-
-#Test your implementation here
-print(dL.is_empty())
-
-dL2 = DoublyLinkedList()
-print(dL2.is_empty())
-
-
-assert dL.is_empty() == False
-assert dL2.is_empty() == True
-del dL2
-
-
-# **T4 (10 points)**: Implement the methods `get_first` and `get_last`
-# to get the first and the last element of the list, respectively.
-# 
-# _Hint_: Return an exception in case the list is empty.
-# 
-# ```python
-# def get_first(self):
-#   """Get the first element of the list"""
-#   pass
-# 
-# def get_last(self):
-#   """Get the last element of the list"""
-#   pass
-# ```
-
-# In[6]:
-
-
-#Test your implementation here
-print(dL.get_first())
-print(dL.get_last())
-
-assert str(dL.get_first()) == f"(0, (1, (2, (3, ('Trailer', None)))))"
-assert str(dL.get_last()) == f"(3, ('Trailer', None))"
-
-
-# **Task 5 (10 points)**: Implement the methods `get_previous` and `get_next`
-# to get the previous and the next node of the list, respectively.
-# 
-# _Hint_: Return an exception in case the list is empty.
-# 
-# ```python
-# def get_previous(self, node):
-#   """Returns the node before the given node"""
-#   pass      
-# 
-# def get_next(self, node):
-#   """Returns the node after the given node"""
-#   pass
-# ```
-
-# In[7]:
-
-
-#Test your implementation here
-print(dL.get_last().get_previous())
-print(dL.get_first().get_next())
-
-assert str(dL.get_last().get_previous()) == "(2, (3, ('Trailer', None)))"
-assert str(dL.get_first().get_next()) == "(1, (2, (3, ('Trailer', None))))"
-
-
-# **Task 6(10 points)**: Implement the methods `add_before` and `add_after`
-# to respectively insert new elements before and after a node of the list.
-# 
-# ```python
-# def add_before(self, new, existing):
-#   """Insert the new before existing"""
-#   pass
-# 
-# def add_after(self, new, existing):
-#   """Insert the new after existing"""
-#   pass
-# ```
-
-# In[8]:
-
-
-#Test your implementation here
-dL.add_after(Node(42),dL.get_first())
-dL.add_before(Node(34),dL.get_last())
-
-print(dL)
-assert str(dL) == "(0, (42, (1, (2, (34, (3, ('Trailer', None)))))))"
-
-
-# **Task 7 (10 points)**: Implement the methods `add_first` and `add_last`
-# to respectively insert new nodes in the beginning and in the end of a list.
-# 
-# ```python
-# def add_first(self, new):
-#   """Insert the node at the head of the list"""
-#   pass
-# 
-# def add_last(self, new):
-#   """Insert the node at the tail of the list"""
-#   pass
-# ```
-
-# In[17]:
-
-
-#Test your implementation here
-dL.add_first(Node(7))
-dL.add_last(Node(-1))
-print(dL)
-assert str(dL) == "(7, (0, (42, (1, (2, (34, (3, (-1, ('Trailer', None)))))))))"
-
-
-# **Task 8 (10 points)**: Implement the method `remove` to remove
-# a node from a list.
-# 
-# ```python
-# def remove(self, node):
-#   """Removes the given node from the list"""
-#   pass
-# ```
-
-# In[16]:
-
-
-#Test your implementation here
-dL.remove(dL.get_first())
-print(dL.get_first())
-
-assert dL.get_first().get_element() == 0
-
-
-# **Task 9 (10 points)**: Implement the method `map` to apply a function on
-# each element of a list.
-# 
-# ```python
-# def map(self, function):
-#   """Run function on every element in the list"""
-#   pass
-# ```
-
-# In[15]:
-
-
-#Test your implementation here
-dL.map(lambda x: x**2)
-
-print(dL)
-
-assert str(dL) == "(0, (1764, (1, (4, (1156, (9, (1, ('Trailer', None))))))))"
-
-
-# **Task 10 (10 points)**: Implement the method `next` to iterate the elements
-# of a list.
-# 
-# ```python
-# """Standard methods for Python iterator"""
-# def __iter__(self):
-#   pass
-# 
-# def __next__(self):
-#   pass
-# ```
-
-# In[13]:
-
-
-#Test your implementation here
-
-
-for node in dL: 
-    print(node.get_element() == dn.__next__().get_element())
-    print(dn)
-
-
-dL
-
-
-# 
-# ## Applying methods of the DoublyLinkedList and Node classes
-# 
-# Answer the following questions by using
-# the implemented methods from the Node and DoublyLinkedList classes.
-# Apply your operations on the list you created in T1.
-
-# **Task 11 (5 points)**: Add 2 to each element of the list.
-# 
-# _Hint_: Use the methods `map`.
-
+            return 1
+
+
+class NANDGate(ANDGate):
+    
+    def perform_gate_logic(self):
+        if super().perform_gate_logic() == 1:
+            return 0
+        else:
+            return 1
+
+class NORGate(ORGate):
+    def perform_gate_logic(self):
+        if super().perform_gate_logic() == 1:
+            return 0
+        else:
+            return 1
+
+class Connector:
+
+    def __init__(self, fgate, tgate):
+        self.from_gate = fgate
+        self.to_gate = tgate
+
+        tgate.set_next_pin(fgate.get_output())
+
+    def get_from(self):
+        return self.from_gate
+
+    def get_to(self):
+        return self.to_gate
+
+
+def adder(a,b,c=0):
+  #define all gates
+  xor1= XORGate("xor1")
+  xor2= XORGate("xor2")
+  and1= ANDGate("and1")
+  and2= ANDGate("and2")
+  or1= ORGate("or1")
+  # set all input values
+  xor1.pin_a = a
+  xor1.pin_b = b  
+  and2.pin_a = a
+  and2.pin_b = b
+  and1.pin_b = c
+  xor2.pin_b = c
+  #now set the connectors
+  ca = Connector(xor1, xor2)
+  cb = Connector(xor1, and1)
+  
+  cc = Connector(and1, or1)
+  cd = Connector(and2, or1)
+  
+  #NATE: Make sure the outputs are correct to match the schematic
+  # https://en.wikipedia.org/wiki/Adder_(electronics)
+  return int(or1.perform_gate_logic()), int(xor2.perform_gate_logic())
  
+#testing loop     
+#single full adder
+##Testing Loop
+c= 0
+for a in [0,1]:
+  for b in [0,1]:
+    carry,s = adder(a,b,c)
+    print(a,b,carry,s)
+
+c= 0
+for a in [1,10]:
+  for b in [1,10]:
+    carry,s = adder(a,b,c)
+    print(a,b,carry,s)
+    
+def one_bit_adder_tests():
+  """
+
+When you run this function, the output should look similar to below. 
+
+  0 + 0 = 0 1
+  0 + 1 = 0 1
+  1 + 0 = 0 1
+  1 + 1 = 1 0
+  """
+  c = 0
+  for a in [0,1]:
+    for b in [0,1]:
+      c, s = adder(a,b,c)
+      print(f"{a}+{b} = {c}{s}")
+  return None
+
+one_bit_adder_tests()
+  
+def eight_bit_adder(a, b, c = 0):
+
+    total = []
+
+    reversed_a = list(reversed(a))
+
+    reversed_b = list(reversed(b))
+
+    for i in range(8):
+
+        c, s = adder(int(reversed_a[i]), int(reversed_b[i]), c)
+
+        total.insert(0, s)
+
+    return c, total
 
 
-def twenties():
-    LL = DoublyLinkedList()
-    for t in range(20,30):
-        LL.add_last(Node(t))
-    return LL
-
-doubleDigits = twenties()
-
-doubleDigits.map(lambda x: x+10)
-
-print(doubleDigits)
-assert str(doubleDigits) =="(30, (31, (32, (33, (34, (35, (36, (37, (38, (39, ('Trailer', None)))))))))))"
 
 
-# 
-# **Task 12 (5 points)**: Multiply each element of the list by 5.
-# 
-# _Hint_: Use the methods `map`, `get_previous`, and `set_element`.
+def nth_bit_adder(a, b, c = 0):
 
- 
+    total = []
 
+    last = len(a)
 
-doubleDigits = twenties()
-def mult_five(x):
-    return x*5
-doubleDigits.map(mult_five)
-str(doubleDigits)
+    reversed_a = list(reversed(a))
 
-for d in doubleDigits: 
-    if d and d.get_element() %4 ==0: 
-            doubleDigits.remove(d)
-str(doubleDigits)
+    reversed_b = list(reversed(b))
 
+    for i in range(last):
 
-# 
-# **Task 13 (5 points)**: Remove elements that are multiples of 3.
-# 
-# _Hint_: Use the methods `next` and `remove`.
+        c, s = adder(int(reversed_a[i]), int(reversed_b[i]), c)
 
- 
+        total.insert(0, s)
+
+    return c, total
 
 
-current = doubleDigits.get_first()
-while(current != doubleDigits.get_last().get_next()):
-    next = current.get_next()
-    if (current.get_element() % 4 == 0):
-        doubleDigits.remove(current)
-        
-    current = next
-    print(current)
-
-str(doubleDigits)
 
 
-# 
-# **Task 14 (5 points)**: Remove elements from the list that are odd numbers. 
-# 
-# _Hint_: Use the methods `get_previous` and `remove`.
-
- 
 
 
-current = doubleDigits.get_first()
-while(current != doubleDigits.get_last().get_next()):
-    next = current.get_next()
-    if (current.get_element() % 2 == 1):
-        doubleDigits.remove(current)
-        
-    current = next
+input1 = "10101010"
 
-str(doubleDigits)
+input2 = "01010101"
+
+output = eight_bit_adder(input1, input2)
+
+print(output)
 
 
+input1 = "00000001"
+
+input2 = "01111111"
+
+output = eight_bit_adder(input1, input2)
+
+print(output)
+    
+#g1 = AndGate("G1")
+#g2 = AndGate("G2")
+#g3 = OrGate("G3")
+#g4 = NotGate("G4")
+#c1 = Connector(g1,g3)
+#c2 = Connector(g2,g3)
+#c3 = Connector(g3,g4)
+#print(g4.getOutput())
+
+
+
+"""
+Write test cases for adding together a one-bit number, repeat for two-bit numbers. 
+How do you expand this adding to be used for n-bits? 
+"""
+
+"A: If adding based on the length of the number you should be able to go to the nth as long as both numbers are the same size. "
