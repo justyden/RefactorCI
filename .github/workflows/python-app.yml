@@ -37,11 +37,8 @@ jobs:
     - name: Test with pytest
       run: |
         pytest
-<<<<<<< HEAD
-=======
     - name: pytester-cov
       uses: programmingwithalex/pytester-cov@v1.2.4
->>>>>>> 37dd385b8f748774e10180679ad548a62ca97de4
 
 
             
