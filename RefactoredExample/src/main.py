@@ -1,5 +1,6 @@
 ''' A program that is meant to be refactored to learn how workflows operate.
-This includes using a linter, running tests, and showing the coverage report.'''
+This includes using a linter, running tests, and showing the coverage report.
+The repository is on GitHub in this case.'''
 def gcd(m, n):
       while m % n != 0:
         m, n = n, m % n
