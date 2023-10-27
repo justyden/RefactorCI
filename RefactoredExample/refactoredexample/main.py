@@ -100,15 +100,6 @@ class Fraction:
     def show(self):
         print(self.__str__())
 
-x = Fraction(1, 2)
-x.show()
-y = Fraction(2, 3)
-print(y)
-assert y == Fraction(2, 3)
-print(x + y)
-assert x + y == Fraction(7,6)
-print(x == y)
-
 """# COMPLETE THE FRACTION CLASS
 <a href= "https://runestone.academy/runestone/books/published/pythonds3/Introduction/Exercises.html"> You can also find these questions in the book. </a><br>
 1. Implement the simple methods get\\_num and get\\_den that will return the numerator and denominator of a fraction.
@@ -129,70 +120,6 @@ print(x == y)
 
 9. Research the \\_\\_repr\\_\\_ method. How does it differ from \\_\\_str\\_\\_? When is it used? Implement \\_\\_repr\\_\\_.
 """
-
-#Test 1
-x.get_num()
-assert x.get_num() == 1
-y.get_den()
-assert y.get_den() == 3
-
-# Test 2
-z = Fraction(3,6)
-print(z)  #should be 1/2
-assert z == Fraction(1,2)
-
-# Test 3
-# __sub__
-z = x-y
-print(z)
-assert z == Fraction(-1,6)
-# __mul__
-z = x*y
-print(z)
-assert z == Fraction(1,3)
-# __truediv__
-# from __future__ import division  #this might need to be imported
-z = x/y
-print(z)
-assert z == Fraction(3,4)
-
-# Test 4
-# __gt__
-assert (x > y) is False
-# __ge__
-assert (x >= y) is False
-# __lt__
-assert (x < y) is True
-# __le__
-assert (x <= y) is True
-# __ne__
-assert (x != y) is True
-
-#Test 5
-try:
-    alpha = Fraction(1.2,2.2)
-except:
-    print('that doesn\'t work!')
-
-#Test 6
-beta = Fraction(3, -5)
-print(beta)
-print(beta.get_num())
-print(beta.get_den())
-assert beta == Fraction(-3, 5)
-
-#Test 7 radd
-print(x + 1)
-print(1 + x)
-assert (x + 1) == Fraction(3,2)
-assert (1 + x) == Fraction(3,2)
-
-#Test 8 iadd
-for i in range(y.get_den()):
-    x += i
-    print(x)
-assert x ==  Fraction(7,2)
-
 
 """# LOGIC GATE PROBLEM
 Research other types of gates that exist (such as NAND, NOR, and XOR). Add them to the circuit hierarchy. How much additional coding did you need to do?
@@ -478,8 +405,6 @@ class Connector:
         self.from_gate = fgate
         self.to_gate = tgate
 
-        tgate.set_next_pin(fgate.get_output())
-
     def get_from(self):
         return self.from_gate
 
@@ -512,20 +437,6 @@ def adder(a,b,c=0):
   # https://en.wikipedia.org/wiki/Adder_(electronics)
   return int(or1.perform_gate_logic()), int(xor2.perform_gate_logic())
  
-#testing loop     
-#single full adder
-##Testing Loop
-c= 0
-for a in [0,1]:
-  for b in [0,1]:
-    carry,s = adder(a,b,c)
-    print(a,b,carry,s)
-
-c= 0
-for a in [1,10]:
-  for b in [1,10]:
-    carry,s = adder(a,b,c)
-    print(a,b,carry,s)
     
 def one_bit_adder_tests():
   """
@@ -543,8 +454,6 @@ When you run this function, the output should look similar to below.
       c, s = adder(a,b,c)
       print(f"{a}+{b} = {c}{s}")
   return None
-
-one_bit_adder_tests()
   
 def eight_bit_adder(a, b, c = 0):
 
@@ -582,43 +491,3 @@ def nth_bit_adder(a, b, c = 0):
         total.insert(0, s)
 
     return c, total
-
-
-
-
-
-
-input1 = "10101010"
-
-input2 = "01010101"
-
-output = eight_bit_adder(input1, input2)
-
-print(output)
-
-
-input1 = "00000001"
-
-input2 = "01111111"
-
-output = eight_bit_adder(input1, input2)
-
-print(output)
-    
-#g1 = AndGate("G1")
-#g2 = AndGate("G2")
-#g3 = OrGate("G3")
-#g4 = NotGate("G4")
-#c1 = Connector(g1,g3)
-#c2 = Connector(g2,g3)
-#c3 = Connector(g3,g4)
-#print(g4.getOutput())
-
-
-
-"""
-Write test cases for adding together a one-bit number, repeat for two-bit numbers. 
-How do you expand this adding to be used for n-bits? 
-"""
-
-"A: If adding based on the length of the number you should be able to go to the nth as long as both numbers are the same size. "
