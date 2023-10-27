@@ -39,10 +39,6 @@ jobs:
         pytest
     - name: pytester-cov
       uses: programmingwithalex/pytester-cov@v1.2.4
-<<<<<<< HEAD
-
-=======
->>>>>>> 982d3857985974531b78f4242aa4f5f5e7681860
 
 
             
