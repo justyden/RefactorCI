@@ -1,8 +1,5 @@
- # -*- coding: utf-8 -*-
-"""CMPSC132 - Homework 1.py
-
-I have included that code snippets for the <a href= "https://runestone.academy/runestone/books/published/pythonds3/Introduction/ObjectOrientedProgramminginPythonDefiningClasses.html">PSADS book below</a>. You need to extend the code in order to meet the criteria listed at the end of the chapter.
-"""
+''' A program that is meant to be refactored to learn how workflows operate.
+This includes using a linter, running tests, and showing the coverage report.'''
 def gcd(m, n):
       while m % n != 0:
         m, n = n, m % n
