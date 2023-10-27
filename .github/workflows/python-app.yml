@@ -12,7 +12,9 @@ on:
       - '*'
 
 permissions:
-  contents: read
+  contents: 'read'
+  id-token: 'write'
+  issues: 'write'
 
 jobs:
   build:
