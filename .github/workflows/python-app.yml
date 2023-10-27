@@ -39,7 +39,7 @@ jobs:
         pytest
     - name: Build coverage file
       run: |
-        pytest --cache-clear --cov=app RefactoredExample/test/ > pytest-coverage.txt
+        pytest --cache-clear --cov=app RefactoredExample/tests/ > pytest-coverage.txt
     - name: Comment coverage
       uses: coroo/pytest-coverage-commentator@v1.0.2
 
