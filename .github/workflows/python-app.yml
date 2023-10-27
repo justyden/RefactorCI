@@ -16,6 +16,9 @@ jobs:
   build:
   
     runs-on: ubuntu-latest
+    env:
+      COVERAGE_SINGLE: 60
+      COVERAGE_TOTAL: 60
     
     steps:
     - uses: actions/checkout@v3
@@ -37,15 +40,16 @@ jobs:
     - name: Test with pytest
       run: |
         pytest
-    - name: Build coverage file
-      run: |
-          pytest --junitxml=pytest.xml --cov-report=term-missing:skip-covered --cov=app tests/ | tee pytest-coverage.txt
-
-    - name: Pytest coverage comment
-      uses: MishaKav/pytest-coverage-comment@main
+    - name: pytester-cov
+      id: pytester-cov
+      uses: programmingwithalex/pytester-cov@main
       with:
-        pytest-coverage-path: ./pytest-coverage.txt
-        junitxml-path: ./pytest.xml
-
+        pytest-root-dir: '.'
+        cov-threshold-single: ${{ env.COVERAGE_SINGLE }}
+        cov-threshold-total: ${{ env.COVERAGE_TOTAL }}
+    - name: Commit pytest coverage table
+      uses: peter-evans/commit-comment@main
+      with:
+        body: ${{ steps.pytester-cov.outputs.output-table }}
 
             
