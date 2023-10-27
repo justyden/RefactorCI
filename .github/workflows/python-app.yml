@@ -39,6 +39,10 @@ jobs:
         pytest
     - name: pytester-cov
       uses: programmingwithalex/pytester-cov@v1.2.4
+     - name: Commit pytest coverage table
+      uses: peter-evans/commit-comment@main
+      with:
+        body: ${{ steps.pytester-cov.outputs.output-table }}
 
 
             
