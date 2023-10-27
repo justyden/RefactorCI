@@ -1,5 +1,5 @@
 import sys
-sys.path.append("./RefactoredExample/refactoredexample/")
+sys.path.append("./RefactoredExample/src/")
 from main import LogicGate, BinaryGate, ANDGate, ORGate, XORGate, UnaryGate, NOTGate, NANDGate, NORGate, Connector
 
 
